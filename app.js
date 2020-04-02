@@ -2,7 +2,6 @@ const notes = require('./notes')
 const yargs = require('yargs')
 const chalk = require('chalk')
 
-
 // Yargs Version 1.0.0
 yargs.version('1.0.0')
 //Adding Notes , Removing Notes , Read Notes , Listing Notes
