@@ -25,9 +25,19 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    let rafId: number | null = null;
+    const handleScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
+        rafId = null;
+      });
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const scrollTo = (id: string) => {
@@ -51,6 +61,7 @@ function App() {
               type="button"
               className="flex items-center gap-2 cursor-pointer"
               onClick={() => scrollTo("hero")}
+              aria-label="DevSofts home"
             >
               <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-violet-400" />
               <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
@@ -110,6 +121,7 @@ function App() {
         )}
       </nav>
 
+      <main>
       {/* Hero Section */}
       <section
         id="hero"
@@ -121,7 +133,9 @@ function App() {
             alt="Technology network visualization"
             className="w-full h-full object-cover opacity-20"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://placehold.co/1920x1080/1a1a2e/7c3aed/png?text=DevSofts";
+              const img = e.target as HTMLImageElement;
+              img.onerror = null;
+              img.src = "https://placehold.co/1920x1080/1a1a2e/7c3aed/png?text=DevSofts";
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/50 via-gray-950/80 to-gray-950" />
@@ -560,6 +574,7 @@ function App() {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-white/5 py-12">
@@ -582,6 +597,7 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label="GitHub profile"
                 >
                   <Github className="w-4 h-4" />
                 </a>
