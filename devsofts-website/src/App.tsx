@@ -17,8 +17,6 @@ import {
   MapPin,
   Phone,
   Github,
-  Linkedin,
-  Twitter,
 } from "lucide-react";
 import "./App.css";
 
@@ -49,12 +47,16 @@ function App() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollTo("hero")}>
+            <button
+              type="button"
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => scrollTo("hero")}
+            >
               <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-violet-400" />
               <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
                 DevSofts
               </span>
-            </div>
+            </button>
 
             <div className="hidden md:flex items-center gap-8">
               {["About", "Products", "Services", "Contact"].map((item) => (
@@ -77,6 +79,8 @@ function App() {
             <button
               className="md:hidden text-gray-300"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -509,10 +513,11 @@ function App() {
                 className="space-y-5"
               >
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">
+                  <label htmlFor="contact-name" className="block text-sm text-gray-400 mb-2">
                     Name
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     placeholder="Your name"
@@ -520,10 +525,11 @@ function App() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">
+                  <label htmlFor="contact-email" className="block text-sm text-gray-400 mb-2">
                     Email
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
                     placeholder="you@example.com"
@@ -531,10 +537,11 @@ function App() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">
+                  <label htmlFor="contact-message" className="block text-sm text-gray-400 mb-2">
                     Message
                   </label>
                   <textarea
+                    id="contact-message"
                     rows={4}
                     required
                     placeholder="Tell us about your project..."
@@ -570,21 +577,14 @@ function App() {
                 transform ideas into exceptional digital experiences.
               </p>
               <div className="flex gap-3">
-                {[
-                  { icon: <Github className="w-4 h-4" />, href: "https://github.com/daruvurisai" },
-                  { icon: <Linkedin className="w-4 h-4" />, href: "#" },
-                  { icon: <Twitter className="w-4 h-4" />, href: "#" },
-                ].map((social, i) => (
-                  <a
-                    key={i}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-                  >
-                    {social.icon}
-                  </a>
-                ))}
+                <a
+                  href="https://github.com/daruvurisai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
               </div>
             </div>
 
