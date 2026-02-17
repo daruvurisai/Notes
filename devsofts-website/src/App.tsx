@@ -25,16 +25,17 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
+    let rafId: number | null = null;
     const handleScroll = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
         setScrolled(window.scrollY > 20);
-      }, 100);
+        rafId = null;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
-      clearTimeout(timeoutId);
+      if (rafId !== null) cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
